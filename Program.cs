@@ -23,7 +23,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
         
 
     }).AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 var app = builder.Build();
 
