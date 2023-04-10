@@ -18,6 +18,26 @@ namespace INTEXAPP2.Controllers
             return View();
         }
 
+        public IActionResult BurialSummary()
+        {
+            return View();
+        }
+
+        public IActionResult SupervisedAnalysis()
+        {
+            return View();
+        }
+
+        public IActionResult UnsupervisedAnalysis()
+        {
+            return View();
+        }
+
+        public IActionResult AdministrativePages()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
