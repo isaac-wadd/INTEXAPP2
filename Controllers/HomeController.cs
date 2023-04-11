@@ -1,5 +1,9 @@
 ﻿using INTEXAPP2.Models;
+
+using Microsoft.AspNetCore.Authorization;
+
 using INTEXAPP2.Models.ViewModels;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -22,6 +26,9 @@ namespace INTEXAPP2.Controllers
         {
             return View();
         }
+
+
+        [Authorize(Roles ="Admin")]
 
         public IActionResult BurialSummary(int pageNum = 1)
         {
@@ -68,6 +75,7 @@ namespace INTEXAPP2.Controllers
         {
             return View();
         }
+
 
         public IActionResult Privacy()
         {

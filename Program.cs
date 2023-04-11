@@ -17,8 +17,11 @@ builder.Services.AddDbContext<mummiesContext>(options =>
 });
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options =>
-    {
+
+builder.Services.AddIdentity<IdentityUser,IdentityRole>(options =>
+{
+
+
         //Password requirements
         options.SignIn.RequireConfirmedAccount = true;
         options.Password.RequiredLength = 15;
@@ -29,9 +32,25 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 
         
 
-    }).AddEntityFrameworkStores<ApplicationDbContext>();
+    })
+    .AddDefaultUI()
+    .AddDefaultTokenProviders()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
 builder.Services.AddSingleton<IHttpContextAccessor,HttpContextAccessor>();
+
+
+builder.Services.Configure<CookiePolicyOptions>(options =>
+{
+    // This lambda determines whether user consent for non-essential 
+    // cookies is needed for a given request.
+    options.CheckConsentNeeded = context => true;
+
+    options.MinimumSameSitePolicy = SameSiteMode.None;
+});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -48,6 +67,24 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.Use(async (context, next) => {
+    context.Response.Headers.Add("Content-Security-Policy-Report-Only", "default-src 'self';" +
+        "script-src 'self' 'sha256-m1igTNlg9PL5o60ru2HIIK6OPQet2z9UgiEAhCyg/RU=' 'sha256-m1igTNlg9PL5o60ru2HIIK6OPQet2z9UgiEAhCyg/RU='" +
+        "'unsafe-eval'; " +
+        "style-src 'self' " +
+        "'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' " +
+        "'sha256-tVFibyLEbUGj+pO/ZSi96c01jJCvzWilvI5Th+wLeGE=' 'unsage-eval'" +
+        "font-src 'self'; " +
+        "img-src 'self'; " +
+        "connect-src 'self'");
+
+    await next();
+});
+
+
+
+app.UseCookiePolicy();
 
 app.UseRouting();
 
