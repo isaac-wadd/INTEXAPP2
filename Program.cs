@@ -1,6 +1,7 @@
 using INTEXAPP2.Data;
 using INTEXAPP2.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,7 +31,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 
     }).AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddSingleton<IHttpContextAccessor,HttpContextAccessor>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -53,9 +54,11 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapControllerRoute("Paging", "{controller=Home}/{action=BurialSummary}/{pageNum}");
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 app.MapRazorPages();
 
 app.Run();
