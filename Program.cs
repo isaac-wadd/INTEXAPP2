@@ -1,4 +1,5 @@
 using INTEXAPP2.Data;
+using INTEXAPP2.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+builder.Services.AddDbContext<mummiesContext>(options =>
+{
+    options.UseMySQL(builder.Configuration.GetConnectionString("Mummies"));
+});
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 
@@ -22,6 +28,7 @@ builder.Services.AddIdentity<IdentityUser,IdentityRole>(options =>
         //Rate Limiting (Throttling) See NIST SP800-63b 5.2.2 https://pages.nist.gov/800-63-3/sp800-63b.html#throttle
         options.Lockout.MaxFailedAccessAttempts = 5;
         options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+
         
 
     })
