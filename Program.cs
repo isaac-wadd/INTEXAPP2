@@ -1,4 +1,5 @@
 using INTEXAPP2.Data;
+using INTEXAPP2.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+builder.Services.AddDbContext<mummiesContext>(options =>
+{
+    options.UseMySQL(builder.Configuration.GetConnectionString("Mummies"));
+});
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
@@ -23,7 +29,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
         
 
     }).AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
