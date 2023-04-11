@@ -10,8 +10,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options =>
-    {
+
+builder.Services.AddIdentity<IdentityUser,IdentityRole>(options =>
+{
+
+
         //Password requirements
         options.SignIn.RequireConfirmedAccount = true;
         options.Password.RequiredLength = 15;
@@ -21,7 +24,10 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
         options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
         
 
-    }).AddEntityFrameworkStores<ApplicationDbContext>();
+    })
+    .AddDefaultUI()
+    .AddDefaultTokenProviders()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
 builder.Services.Configure<CookiePolicyOptions>(options =>
