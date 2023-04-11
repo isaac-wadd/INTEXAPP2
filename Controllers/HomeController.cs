@@ -7,6 +7,7 @@ using INTEXAPP2.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Http;
 
 namespace INTEXAPP2.Controllers
 {
@@ -30,10 +31,16 @@ namespace INTEXAPP2.Controllers
         [Authorize(Roles ="Admin")]
 
         public IActionResult BurialSummary(int pageNum = 1)
-        { 
+        {
+
+            if (HttpContext.Request.Cookies["filters"] == null)
+            {
+                var cookieOptions = new CookieOptions { };
+                HttpContext.Response.Cookies.Append("filters", "hello,this,is,my,stuff", cookieOptions);
+            }
             // Set page length
             int pageLen = 10;
-
+            
             //Create view Model
             var x = new BurialViewModel
             {
