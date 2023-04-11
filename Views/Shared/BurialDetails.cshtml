@@ -1,0 +1,34 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Burialmain
+
+<!--Added shadows to each of the cards and increased the gap-->
+<div class="card card-outline-primary m-3 p-1 shadow-lg">
+    <div class="bg-faded p-1">
+        <h4>
+            @Model.Id
+            <!--Make price the little blue bubble-->
+            <span class="badge badge-pill badge-primary" style="float:right">
+                <small>$@Model.Id</small>
+            </span>
+        </h4>
+    </div>
+    <!--List out everything else-->
+@*    <div class="card-text p-1">Author: @Model.Author.</div>
+    <div class="card-text p-1">Publisher: @Model.Publisher.</div>
+    <div class="card-text p-1">ISBN: @Model.Isbn</div>
+    <div class="card-text p-1">Classification: @Model.Classification</div>
+    <div class="card-text p-1">Category: @Model.Category</div>
+    <div class="card-text p-1">Page Count: @Model.PageCount</div>
+    <!--Allow the user to return to the page they left from. Also send over the book id-->
+    <form method="post" asp-page="/ShoppingCart">
+        <input type="hidden" asp-for="@Model.BookId" />
+        <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />
+        <span class="card-text">
+            <button type="submit" class="btn btn-success btn-sm float-end">Add To Cart</button>
+        </span>
+    </form>*@
+</div>

@@ -5,33 +5,46 @@ namespace INTEXAPP2.Models
 {
     public partial class Bodyanalysischart
     {
-        public long Id { get; set; }
-        public string Femur { get; set; }
-        public string Humerusheaddiameter { get; set; }
-        public string Squamossuture { get; set; }
-        public string CariesPeriodontalDisease { get; set; }
-        public string MedicalIpRamus { get; set; }
-        public int? Perservationindex { get; set; }
-        public string Gonion { get; set; }
-        public int? Humeruslength { get; set; }
-        public int? Femurlength { get; set; }
-        public string Lambdoidsuture { get; set; }
-        public bool? Ventralarc { get; set; }
-        public int? Tootheruptionageestimation { get; set; }
-        public string Nuchalcrest { get; set; }
-        public int? Estimatestature { get; set; }
-        public string Notes { get; set; }
-        public string Osteophytosis { get; set; }
-        public string Subpubicangle { get; set; }
-        public bool? Robust { get; set; }
-        public string Femurheaddiameter { get; set; }
-        public string Sciaticnotch { get; set; }
-        public string Supraorbitalridges { get; set; }
-        public string Orbitedge { get; set; }
-        public int? Toothattrition { get; set; }
-        public string Sphenooccipitalsynchondrosis { get; set; }
-        public bool? Parietalblossing { get; set; }
+        public double? Id { get; set; }
+        public double? SquareNorthSouth { get; set; }
+        public string NorthSouth { get; set; }
+        public double? SquareEastWest { get; set; }
+        public string EastWest { get; set; }
+        public string Area { get; set; }
+        public string BurialNumber { get; set; }
+        public string DateofExamination { get; set; }
+        public double? PreservationIndex { get; set; }
+        public string HairColor { get; set; }
         public string Observations { get; set; }
+        public string Robust { get; set; }
+        public string SupraorbitalRidges { get; set; }
+        public string OrbitEdge { get; set; }
+        public string ParietalBossing { get; set; }
+        public string Gonion { get; set; }
+        public string NuchalCrest { get; set; }
+        public string ZygomaticCrest { get; set; }
+        public string SphenooccipitalSynchrondrosis { get; set; }
+        public string LamboidSuture { get; set; }
+        public string SquamosSuture { get; set; }
+        public string ToothAttrition { get; set; }
+        public string ToothEruption { get; set; }
+        public string ToothEruptionAgeEstimate { get; set; }
+        public string VentralArc { get; set; }
+        public string SubpubicAngle { get; set; }
+        public string SciaticNotch { get; set; }
+        public string PubicBone { get; set; }
+        public string PreauricularSulcusBoolean { get; set; }
+        public string MedialIpRamus { get; set; }
+        public string DorsalPittingBoolean { get; set; }
+        public string Femur { get; set; }
         public string Humerus { get; set; }
+        public string FemurHeadDiameter { get; set; }
+        public string HumerusHeadDiameter { get; set; }
+        public double? FemurLength { get; set; }
+        public double? HumerusLength { get; set; }
+        public double? EstimateStature { get; set; }
+        public string Osteophytosis { get; set; }
+        public string CariesPeriodontalDisease { get; set; }
+        public string Notes { get; set; }
     }
 }

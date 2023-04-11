@@ -57,7 +57,7 @@ namespace INTEXAPP2.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseNpgsql("Host=localhost;Database=mummies;Username=postgres;Password=admin");
+                optionsBuilder.UseMySQL("Server=localhost;Database=mummies;Uid=root;Pwd=admin;");
             }
         }
 
@@ -67,16 +67,14 @@ namespace INTEXAPP2.Models
             {
                 entity.ToTable("analysis");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Analysisid).HasColumnName("analysisid");
 
                 entity.Property(e => e.Analysistype).HasColumnName("analysistype");
 
                 entity.Property(e => e.Date)
-                    .HasColumnType("timestamp without time zone")
+                    .HasColumnType("timestamp")
                     .HasColumnName("date");
 
                 entity.Property(e => e.Doneby)
@@ -87,11 +85,9 @@ namespace INTEXAPP2.Models
             modelBuilder.Entity<AnalysisTextile>(entity =>
             {
                 entity.HasKey(e => new { e.MainAnalysisid, e.MainTextileid })
-                    .HasName("main$analysis_textile_pkey");
+                    .HasName("PRIMARY");
 
                 entity.ToTable("analysis_textile");
-
-                entity.HasIndex(e => new { e.MainTextileid, e.MainAnalysisid }, "idx_main$analysis_textile_main$textile_main$analysis");
 
                 entity.Property(e => e.MainAnalysisid).HasColumnName("main$analysisid");
 
@@ -102,15 +98,15 @@ namespace INTEXAPP2.Models
             {
                 entity.ToTable("artifactfagelgamousregister");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Coordinateset)
                     .HasMaxLength(200)
                     .HasColumnName("coordinateset");
 
-                entity.Property(e => e.Notes).HasColumnName("notes");
+                entity.Property(e => e.Notes)
+                    .HasColumnType("text")
+                    .HasColumnName("notes");
 
                 entity.Property(e => e.Photographed)
                     .HasMaxLength(3)
@@ -124,11 +120,9 @@ namespace INTEXAPP2.Models
             modelBuilder.Entity<ArtifactfagelgamousregisterBurialmain>(entity =>
             {
                 entity.HasKey(e => new { e.MainArtifactfagelgamousregisterid, e.MainBurialmainid })
-                    .HasName("main$artifactfagelgamousregister_burialmain_pkey");
+                    .HasName("PRIMARY");
 
                 entity.ToTable("artifactfagelgamousregister_burialmain");
-
-                entity.HasIndex(e => new { e.MainBurialmainid, e.MainArtifactfagelgamousregisterid }, "idx_main$artifactfagelgamousregister_burialmain");
 
                 entity.Property(e => e.MainArtifactfagelgamousregisterid).HasColumnName("main$artifactfagelgamousregisterid");
 
@@ -139,9 +133,7 @@ namespace INTEXAPP2.Models
             {
                 entity.ToTable("artifactkomaushimregister");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Currentlocation)
                     .HasMaxLength(200)
@@ -152,7 +144,7 @@ namespace INTEXAPP2.Models
                     .HasColumnName("date");
 
                 entity.Property(e => e.Description)
-                    .HasMaxLength(500)
+                    .HasColumnType("text")
                     .HasColumnName("description");
 
                 entity.Property(e => e.Dimensions)
@@ -160,7 +152,7 @@ namespace INTEXAPP2.Models
                     .HasColumnName("dimensions");
 
                 entity.Property(e => e.Entrydate)
-                    .HasColumnType("timestamp without time zone")
+                    .HasColumnType("timestamp")
                     .HasColumnName("entrydate");
 
                 entity.Property(e => e.Excavatornum)
@@ -200,18 +192,16 @@ namespace INTEXAPP2.Models
                     .HasColumnName("rehousedto");
 
                 entity.Property(e => e.Remarks)
-                    .HasMaxLength(500)
+                    .HasColumnType("text")
                     .HasColumnName("remarks");
             });
 
             modelBuilder.Entity<ArtifactkomaushimregisterBurialmain>(entity =>
             {
                 entity.HasKey(e => new { e.MainArtifactkomaushimregisterid, e.MainBurialmainid })
-                    .HasName("main$artifactqumoshimregistrar_burialmain_pkey");
+                    .HasName("PRIMARY");
 
                 entity.ToTable("artifactkomaushimregister_burialmain");
-
-                entity.HasIndex(e => new { e.MainBurialmainid, e.MainArtifactkomaushimregisterid }, "idx_main$artifactkomaushimregister_burialmain");
 
                 entity.Property(e => e.MainArtifactkomaushimregisterid).HasColumnName("main$artifactkomaushimregisterid");
 
@@ -222,16 +212,14 @@ namespace INTEXAPP2.Models
             {
                 entity.ToTable("biological");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Bagnumber).HasColumnName("bagnumber");
 
                 entity.Property(e => e.Clusternumber).HasColumnName("clusternumber");
 
                 entity.Property(e => e.Date)
-                    .HasColumnType("timestamp without time zone")
+                    .HasColumnType("timestamp")
                     .HasColumnName("date");
 
                 entity.Property(e => e.Initials)
@@ -239,7 +227,7 @@ namespace INTEXAPP2.Models
                     .HasColumnName("initials");
 
                 entity.Property(e => e.Notes)
-                    .HasMaxLength(2000)
+                    .HasColumnType("text")
                     .HasColumnName("notes");
 
                 entity.Property(e => e.Previouslysampled)
@@ -252,11 +240,9 @@ namespace INTEXAPP2.Models
             modelBuilder.Entity<BiologicalC14>(entity =>
             {
                 entity.HasKey(e => new { e.MainBiologicalid, e.MainC14id })
-                    .HasName("main$biological_c14_pkey");
+                    .HasName("PRIMARY");
 
                 entity.ToTable("biological_c14");
-
-                entity.HasIndex(e => new { e.MainC14id, e.MainBiologicalid }, "idx_main$biological_c14_main$c14_main$biological");
 
                 entity.Property(e => e.MainBiologicalid).HasColumnName("main$biologicalid");
 
@@ -265,121 +251,105 @@ namespace INTEXAPP2.Models
 
             modelBuilder.Entity<Bodyanalysischart>(entity =>
             {
+                entity.HasNoKey();
+
                 entity.ToTable("bodyanalysischart");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Area).HasMaxLength(255);
+
+                entity.Property(e => e.BurialNumber).HasMaxLength(255);
 
                 entity.Property(e => e.CariesPeriodontalDisease)
-                    .HasMaxLength(200)
-                    .HasColumnName("caries_periodontal_disease");
+                    .HasMaxLength(255)
+                    .HasColumnName("Caries_Periodontal_Disease");
 
-                entity.Property(e => e.Estimatestature).HasColumnName("estimatestature");
+                entity.Property(e => e.DateofExamination).HasMaxLength(255);
 
-                entity.Property(e => e.Femur)
-                    .HasMaxLength(200)
-                    .HasColumnName("femur");
+                entity.Property(e => e.DorsalPittingBoolean)
+                    .HasMaxLength(255)
+                    .HasColumnName("DorsalPitting (boolean)");
 
-                entity.Property(e => e.Femurheaddiameter)
-                    .HasMaxLength(200)
-                    .HasColumnName("femurheaddiameter");
+                entity.Property(e => e.EastWest).HasMaxLength(255);
 
-                entity.Property(e => e.Femurlength).HasColumnName("femurlength");
+                entity.Property(e => e.Femur).HasMaxLength(255);
 
-                entity.Property(e => e.Gonion)
-                    .HasMaxLength(200)
-                    .HasColumnName("gonion");
+                entity.Property(e => e.FemurHeadDiameter).HasMaxLength(255);
 
-                entity.Property(e => e.Humerus)
-                    .HasMaxLength(200)
-                    .HasColumnName("humerus");
+                entity.Property(e => e.Gonion).HasMaxLength(255);
 
-                entity.Property(e => e.Humerusheaddiameter)
-                    .HasMaxLength(200)
-                    .HasColumnName("humerusheaddiameter");
+                entity.Property(e => e.HairColor).HasMaxLength(255);
 
-                entity.Property(e => e.Humeruslength).HasColumnName("humeruslength");
+                entity.Property(e => e.Humerus).HasMaxLength(255);
 
-                entity.Property(e => e.Lambdoidsuture)
-                    .HasMaxLength(200)
-                    .HasColumnName("lambdoidsuture");
+                entity.Property(e => e.HumerusHeadDiameter).HasMaxLength(255);
 
-                entity.Property(e => e.MedicalIpRamus)
-                    .HasMaxLength(200)
-                    .HasColumnName("medical_ip_ramus");
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Notes)
-                    .HasMaxLength(2000)
-                    .HasColumnName("notes");
+                entity.Property(e => e.LamboidSuture).HasMaxLength(255);
 
-                entity.Property(e => e.Nuchalcrest)
-                    .HasMaxLength(200)
-                    .HasColumnName("nuchalcrest");
+                entity.Property(e => e.MedialIpRamus)
+                    .HasMaxLength(255)
+                    .HasColumnName("Medial_IP_Ramus");
 
-                entity.Property(e => e.Observations)
-                    .HasColumnType("character varying")
-                    .HasColumnName("observations");
+                entity.Property(e => e.NorthSouth).HasMaxLength(255);
 
-                entity.Property(e => e.Orbitedge)
-                    .HasMaxLength(200)
-                    .HasColumnName("orbitedge");
+                entity.Property(e => e.Notes).HasMaxLength(859);
 
-                entity.Property(e => e.Osteophytosis)
-                    .HasMaxLength(200)
-                    .HasColumnName("osteophytosis");
+                entity.Property(e => e.NuchalCrest).HasMaxLength(255);
 
-                entity.Property(e => e.Parietalblossing).HasColumnName("parietalblossing");
+                entity.Property(e => e.Observations).HasMaxLength(830);
 
-                entity.Property(e => e.Perservationindex).HasColumnName("perservationindex");
+                entity.Property(e => e.OrbitEdge).HasMaxLength(255);
 
-                entity.Property(e => e.Robust).HasColumnName("robust");
+                entity.Property(e => e.Osteophytosis).HasMaxLength(255);
 
-                entity.Property(e => e.Sciaticnotch)
-                    .HasMaxLength(200)
-                    .HasColumnName("sciaticnotch");
+                entity.Property(e => e.ParietalBossing).HasMaxLength(255);
 
-                entity.Property(e => e.Sphenooccipitalsynchondrosis)
-                    .HasMaxLength(200)
-                    .HasColumnName("sphenooccipitalsynchondrosis");
+                entity.Property(e => e.PreauricularSulcusBoolean)
+                    .HasMaxLength(255)
+                    .HasColumnName("PreauricularSulcus (Boolean)");
 
-                entity.Property(e => e.Squamossuture)
-                    .HasMaxLength(200)
-                    .HasColumnName("squamossuture");
+                entity.Property(e => e.PubicBone).HasMaxLength(255);
 
-                entity.Property(e => e.Subpubicangle)
-                    .HasMaxLength(200)
-                    .HasColumnName("subpubicangle");
+                entity.Property(e => e.Robust).HasMaxLength(255);
 
-                entity.Property(e => e.Supraorbitalridges)
-                    .HasMaxLength(200)
-                    .HasColumnName("supraorbitalridges");
+                entity.Property(e => e.SciaticNotch).HasMaxLength(255);
 
-                entity.Property(e => e.Toothattrition).HasColumnName("toothattrition");
+                entity.Property(e => e.SphenooccipitalSynchrondrosis).HasMaxLength(255);
 
-                entity.Property(e => e.Tootheruptionageestimation).HasColumnName("tootheruptionageestimation");
+                entity.Property(e => e.SquamosSuture).HasMaxLength(255);
 
-                entity.Property(e => e.Ventralarc).HasColumnName("ventralarc");
+                entity.Property(e => e.SubpubicAngle).HasMaxLength(255);
+
+                entity.Property(e => e.SupraorbitalRidges).HasMaxLength(255);
+
+                entity.Property(e => e.ToothAttrition).HasMaxLength(255);
+
+                entity.Property(e => e.ToothEruption).HasMaxLength(255);
+
+                entity.Property(e => e.ToothEruptionAgeEstimate).HasMaxLength(255);
+
+                entity.Property(e => e.VentralArc).HasMaxLength(255);
+
+                entity.Property(e => e.ZygomaticCrest).HasMaxLength(255);
             });
 
             modelBuilder.Entity<Book>(entity =>
             {
                 entity.ToTable("books");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Author)
                     .HasMaxLength(200)
                     .HasColumnName("author");
 
                 entity.Property(e => e.Description)
-                    .HasColumnType("character varying")
+                    .HasMaxLength(255)
                     .HasColumnName("description");
 
                 entity.Property(e => e.Link)
-                    .HasMaxLength(300)
+                    .HasColumnType("text")
                     .HasColumnName("link");
 
                 entity.Property(e => e.Title)
@@ -391,9 +361,7 @@ namespace INTEXAPP2.Models
             {
                 entity.ToTable("burialmain");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Adultsubadult)
                     .HasMaxLength(200)
@@ -426,7 +394,7 @@ namespace INTEXAPP2.Models
                     .HasColumnName("dataexpertinitials");
 
                 entity.Property(e => e.Dateofexcavation)
-                    .HasColumnType("timestamp without time zone")
+                    .HasColumnType("timestamp")
                     .HasColumnName("dateofexcavation");
 
                 entity.Property(e => e.Depth)
@@ -514,7 +482,7 @@ namespace INTEXAPP2.Models
                     .HasColumnName("squarenorthsouth");
 
                 entity.Property(e => e.Text)
-                    .HasMaxLength(2000)
+                    .HasColumnType("text")
                     .HasColumnName("text");
 
                 entity.Property(e => e.Westtofeet)
@@ -533,11 +501,9 @@ namespace INTEXAPP2.Models
             modelBuilder.Entity<BurialmainBiological>(entity =>
             {
                 entity.HasKey(e => new { e.MainBurialmainid, e.MainBiologicalid })
-                    .HasName("main$burialmain_biological_pkey");
+                    .HasName("PRIMARY");
 
                 entity.ToTable("burialmain_biological");
-
-                entity.HasIndex(e => new { e.MainBiologicalid, e.MainBurialmainid }, "idx_main$burialmain_biological_main$biological_main$burialmain");
 
                 entity.Property(e => e.MainBurialmainid).HasColumnName("main$burialmainid");
 
@@ -547,11 +513,9 @@ namespace INTEXAPP2.Models
             modelBuilder.Entity<BurialmainBodyanalysischart>(entity =>
             {
                 entity.HasKey(e => new { e.MainBurialmainid, e.MainBodyanalysischartid })
-                    .HasName("main$burialmain_bodyanalysischart_pkey");
+                    .HasName("PRIMARY");
 
                 entity.ToTable("burialmain_bodyanalysischart");
-
-                entity.HasIndex(e => new { e.MainBodyanalysischartid, e.MainBurialmainid }, "idx_main$burialmain_bodyanalysischart");
 
                 entity.Property(e => e.MainBurialmainid).HasColumnName("main$burialmainid");
 
@@ -561,11 +525,9 @@ namespace INTEXAPP2.Models
             modelBuilder.Entity<BurialmainCranium>(entity =>
             {
                 entity.HasKey(e => new { e.MainBurialmainid, e.MainCraniumid })
-                    .HasName("main$burialmain_cranium_pkey");
+                    .HasName("PRIMARY");
 
                 entity.ToTable("burialmain_cranium");
-
-                entity.HasIndex(e => new { e.MainCraniumid, e.MainBurialmainid }, "idx_main$burialmain_cranium_main$cranium_main$burialmain");
 
                 entity.Property(e => e.MainBurialmainid).HasColumnName("main$burialmainid");
 
@@ -575,11 +537,9 @@ namespace INTEXAPP2.Models
             modelBuilder.Entity<BurialmainTextile>(entity =>
             {
                 entity.HasKey(e => new { e.MainBurialmainid, e.MainTextileid })
-                    .HasName("main$burialmain_textile_pkey");
+                    .HasName("PRIMARY");
 
                 entity.ToTable("burialmain_textile");
-
-                entity.HasIndex(e => new { e.MainTextileid, e.MainBurialmainid }, "idx_main$burialmain_textile_main$textile_main$burialmain");
 
                 entity.Property(e => e.MainBurialmainid).HasColumnName("main$burialmainid");
 
@@ -590,9 +550,7 @@ namespace INTEXAPP2.Models
             {
                 entity.ToTable("c14");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Agebp).HasColumnName("agebp");
 
@@ -615,7 +573,7 @@ namespace INTEXAPP2.Models
                     .HasColumnName("category");
 
                 entity.Property(e => e.Description)
-                    .HasMaxLength(2000)
+                    .HasColumnType("text")
                     .HasColumnName("description");
 
                 entity.Property(e => e.Foci)
@@ -623,11 +581,11 @@ namespace INTEXAPP2.Models
                     .HasColumnName("foci");
 
                 entity.Property(e => e.Location)
-                    .HasMaxLength(2000)
+                    .HasColumnType("text")
                     .HasColumnName("location");
 
                 entity.Property(e => e.Questions)
-                    .HasMaxLength(2000)
+                    .HasColumnType("text")
                     .HasColumnName("questions");
 
                 entity.Property(e => e.Rack).HasColumnName("rack");
@@ -641,25 +599,21 @@ namespace INTEXAPP2.Models
             {
                 entity.ToTable("color");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Colorid).HasColumnName("colorid");
 
                 entity.Property(e => e.Value)
-                    .HasMaxLength(500)
+                    .HasColumnType("text")
                     .HasColumnName("value");
             });
 
             modelBuilder.Entity<ColorTextile>(entity =>
             {
                 entity.HasKey(e => new { e.MainColorid, e.MainTextileid })
-                    .HasName("main$color_textile_pkey");
+                    .HasName("PRIMARY");
 
                 entity.ToTable("color_textile");
-
-                entity.HasIndex(e => new { e.MainTextileid, e.MainColorid }, "idx_main$color_textile_main$textile_main$color");
 
                 entity.Property(e => e.MainColorid).HasColumnName("main$colorid");
 
@@ -670,9 +624,7 @@ namespace INTEXAPP2.Models
             {
                 entity.ToTable("cranium");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.AlphaCore)
                     .HasPrecision(28, 8)
@@ -739,25 +691,21 @@ namespace INTEXAPP2.Models
             {
                 entity.ToTable("decoration");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Decorationid).HasColumnName("decorationid");
 
                 entity.Property(e => e.Value)
-                    .HasMaxLength(500)
+                    .HasColumnType("text")
                     .HasColumnName("value");
             });
 
             modelBuilder.Entity<DecorationTextile>(entity =>
             {
                 entity.HasKey(e => new { e.MainDecorationid, e.MainTextileid })
-                    .HasName("main$decoration_textile_pkey");
+                    .HasName("PRIMARY");
 
                 entity.ToTable("decoration_textile");
-
-                entity.HasIndex(e => new { e.MainTextileid, e.MainDecorationid }, "idx_main$decoration_textile_main$textile_main$decoration");
 
                 entity.Property(e => e.MainDecorationid).HasColumnName("main$decorationid");
 
@@ -768,14 +716,12 @@ namespace INTEXAPP2.Models
             {
                 entity.ToTable("dimension");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Dimensionid).HasColumnName("dimensionid");
 
                 entity.Property(e => e.Dimensiontype)
-                    .HasMaxLength(500)
+                    .HasColumnType("text")
                     .HasColumnName("dimensiontype");
 
                 entity.Property(e => e.Value)
@@ -786,11 +732,9 @@ namespace INTEXAPP2.Models
             modelBuilder.Entity<DimensionTextile>(entity =>
             {
                 entity.HasKey(e => new { e.MainDimensionid, e.MainTextileid })
-                    .HasName("main$dimension_textile_pkey");
+                    .HasName("PRIMARY");
 
                 entity.ToTable("dimension_textile");
-
-                entity.HasIndex(e => new { e.MainTextileid, e.MainDimensionid }, "idx_main$dimension_textile_main$textile_main$dimension");
 
                 entity.Property(e => e.MainDimensionid).HasColumnName("main$dimensionid");
 
@@ -801,39 +745,35 @@ namespace INTEXAPP2.Models
             {
                 entity.ToTable("newsarticle");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Author)
-                    .HasColumnType("character varying")
+                    .HasMaxLength(255)
                     .HasColumnName("author");
 
                 entity.Property(e => e.Description)
-                    .HasColumnType("character varying")
+                    .HasMaxLength(255)
                     .HasColumnName("description");
 
                 entity.Property(e => e.Title)
-                    .HasColumnType("character varying")
+                    .HasMaxLength(255)
                     .HasColumnName("title");
 
                 entity.Property(e => e.Url)
-                    .HasColumnType("character varying")
+                    .HasMaxLength(255)
                     .HasColumnName("url");
 
                 entity.Property(e => e.Urltoimage)
-                    .HasColumnType("character varying")
+                    .HasMaxLength(255)
                     .HasColumnName("urltoimage");
             });
 
             modelBuilder.Entity<PhotodataTextile>(entity =>
             {
                 entity.HasKey(e => new { e.MainPhotodataid, e.MainTextileid })
-                    .HasName("main$photodata_textile_pkey");
+                    .HasName("PRIMARY");
 
                 entity.ToTable("photodata_textile");
-
-                entity.HasIndex(e => new { e.MainTextileid, e.MainPhotodataid }, "idx_main$photodata_textile_main$textile_main$photodata");
 
                 entity.Property(e => e.MainPhotodataid).HasColumnName("main$photodataid");
 
@@ -844,16 +784,14 @@ namespace INTEXAPP2.Models
             {
                 entity.ToTable("photodata");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Date)
-                    .HasColumnType("timestamp without time zone")
+                    .HasColumnType("timestamp")
                     .HasColumnName("date");
 
                 entity.Property(e => e.Description)
-                    .HasMaxLength(500)
+                    .HasColumnType("text")
                     .HasColumnName("description");
 
                 entity.Property(e => e.Filename)
@@ -863,7 +801,7 @@ namespace INTEXAPP2.Models
                 entity.Property(e => e.Photodataid).HasColumnName("photodataid");
 
                 entity.Property(e => e.Url)
-                    .HasMaxLength(500)
+                    .HasColumnType("text")
                     .HasColumnName("url");
             });
 
@@ -871,9 +809,7 @@ namespace INTEXAPP2.Models
             {
                 entity.ToTable("photoform");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Area)
                     .HasMaxLength(100)
@@ -896,7 +832,7 @@ namespace INTEXAPP2.Models
                     .HasColumnName("northsouth");
 
                 entity.Property(e => e.Photodate)
-                    .HasColumnType("timestamp without time zone")
+                    .HasColumnType("timestamp")
                     .HasColumnName("photodate");
 
                 entity.Property(e => e.Photographer)
@@ -920,25 +856,21 @@ namespace INTEXAPP2.Models
             {
                 entity.ToTable("structure");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Structureid).HasColumnName("structureid");
 
                 entity.Property(e => e.Value)
-                    .HasMaxLength(500)
+                    .HasColumnType("text")
                     .HasColumnName("value");
             });
 
             modelBuilder.Entity<StructureTextile>(entity =>
             {
                 entity.HasKey(e => new { e.MainStructureid, e.MainTextileid })
-                    .HasName("main$structure_textile_pkey");
+                    .HasName("PRIMARY");
 
                 entity.ToTable("structure_textile");
-
-                entity.HasIndex(e => new { e.MainTextileid, e.MainStructureid }, "idx_main$structure_textile_main$textile_main$structure");
 
                 entity.Property(e => e.MainStructureid).HasColumnName("main$structureid");
 
@@ -949,12 +881,10 @@ namespace INTEXAPP2.Models
             {
                 entity.ToTable("teammember");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Bio)
-                    .HasColumnType("character varying")
+                    .HasMaxLength(255)
                     .HasColumnName("bio");
 
                 entity.Property(e => e.Membername)
@@ -966,16 +896,14 @@ namespace INTEXAPP2.Models
             {
                 entity.ToTable("textile");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Burialnumber)
                     .HasMaxLength(200)
                     .HasColumnName("burialnumber");
 
                 entity.Property(e => e.Description)
-                    .HasColumnType("character varying")
+                    .HasMaxLength(255)
                     .HasColumnName("description");
 
                 entity.Property(e => e.Direction)
@@ -991,11 +919,11 @@ namespace INTEXAPP2.Models
                     .HasColumnName("locale");
 
                 entity.Property(e => e.Photographeddate)
-                    .HasColumnType("timestamp without time zone")
+                    .HasColumnType("timestamp")
                     .HasColumnName("photographeddate");
 
                 entity.Property(e => e.Sampledate)
-                    .HasColumnType("timestamp without time zone")
+                    .HasColumnType("timestamp")
                     .HasColumnName("sampledate");
 
                 entity.Property(e => e.Textileid).HasColumnName("textileid");
@@ -1005,9 +933,7 @@ namespace INTEXAPP2.Models
             {
                 entity.ToTable("textilefunction");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Textilefunctionid).HasColumnName("textilefunctionid");
 
@@ -1019,11 +945,9 @@ namespace INTEXAPP2.Models
             modelBuilder.Entity<TextilefunctionTextile>(entity =>
             {
                 entity.HasKey(e => new { e.MainTextilefunctionid, e.MainTextileid })
-                    .HasName("main$textilefunction_textile_pkey");
+                    .HasName("PRIMARY");
 
                 entity.ToTable("textilefunction_textile");
-
-                entity.HasIndex(e => new { e.MainTextileid, e.MainTextilefunctionid }, "idx_main$textilefunction_textile");
 
                 entity.Property(e => e.MainTextilefunctionid).HasColumnName("main$textilefunctionid");
 
@@ -1034,9 +958,7 @@ namespace INTEXAPP2.Models
             {
                 entity.ToTable("yarnmanipulation");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Angle)
                     .HasMaxLength(20)
@@ -1076,22 +998,14 @@ namespace INTEXAPP2.Models
             modelBuilder.Entity<YarnmanipulationTextile>(entity =>
             {
                 entity.HasKey(e => new { e.MainYarnmanipulationid, e.MainTextileid })
-                    .HasName("main$yarnmanipulation_textile_pkey");
+                    .HasName("PRIMARY");
 
                 entity.ToTable("yarnmanipulation_textile");
-
-                entity.HasIndex(e => new { e.MainTextileid, e.MainYarnmanipulationid }, "idx_main$yarnmanipulation_textile");
 
                 entity.Property(e => e.MainYarnmanipulationid).HasColumnName("main$yarnmanipulationid");
 
                 entity.Property(e => e.MainTextileid).HasColumnName("main$textileid");
             });
-
-            modelBuilder.HasSequence("excelimporter$template_nr_mxseq");
-
-            modelBuilder.HasSequence("system$filedocument_fileid_mxseq");
-
-            modelBuilder.HasSequence("system$queuedtask_sequence_mxseq");
 
             OnModelCreatingPartial(modelBuilder);
         }
