@@ -22,7 +22,7 @@ namespace INTEXAPP2.Controllers
         [Authorize(Roles ="Admin")]
         public IActionResult Privacy()
         {
-            return View();
+            return View(); 
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
