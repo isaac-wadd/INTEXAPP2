@@ -9,7 +9,9 @@
 }       
 
 @model BurialViewModel
-
+<div id="Filters" class="col-3">
+    <partial name="Filters" />
+</div>
 @foreach(Burialmain b in Model.Burials)
 {
         <partial name="BurialDetails" model="b"/>

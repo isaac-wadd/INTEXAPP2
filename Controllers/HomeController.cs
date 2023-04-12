@@ -28,8 +28,6 @@ namespace INTEXAPP2.Controllers
         }
 
 
-        [Authorize(Roles ="Admin")]
-
         public IActionResult BurialSummary(int pageNum = 1)
         {
 
