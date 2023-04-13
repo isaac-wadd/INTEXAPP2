@@ -90,11 +90,12 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.MapControllerRoute("Second", "{controller}/{action}/{id?}");
 app.MapControllerRoute("Paging", "{controller=Home}/{action=BurialSummary}/{pageNum}");
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 app.MapRazorPages();
 

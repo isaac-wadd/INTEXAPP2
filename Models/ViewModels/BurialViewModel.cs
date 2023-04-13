@@ -2,7 +2,7 @@
 {
     public class BurialViewModel
     {
-        public IQueryable<Burialmain> Burials { get; set; }
+        public List<SummaryView> Burials { get; set; }
         public PageDetails PageDetails { get; set; }
     }
 }
