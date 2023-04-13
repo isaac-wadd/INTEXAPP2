@@ -4,6 +4,108 @@
 @{
 }
 
+@model INTEXAPP2.Models.ViewModels.SupervisedView
 <h1>Supervised Analysis</h1>
 
 <h2>A page that allows the user to enter osteology and/or burial information to predict (based on your trained model) the sex of the burial (see information re: IS 455 requirements)</h2>
+
+
+@*# # burialCols = ['depth', 'length', 'headdirection', 'squarenorthsouth', 'northsouth', 'squareeastwest', 'eastwest', 'sex', 'ageatdeath', 'facebundles', 'wrapping']
+# # yarnCols = ['material', 'thickness', 'ply', 'count', 'direction']*@
+
+<form method="post">
+    <label asp-for="head">Head Direction</label>
+    <select asp-for="head">
+        <option value=""></option>
+        <option value="W">West</option>
+        <option value="E">East</option>
+    </select><br />
+
+    <label asp-for="face">Face Bundles</label>
+    <select asp-for="face">
+        <option value=""></option>
+        <option value="Y">Yes</option>
+        <option value="N">No</option>
+    </select><br />
+
+@*    <label asp-for="material">Material</label>
+    <select asp-for="material">
+        <option value=""></option>
+        <option value="Linen">Linen</option>
+        <option value="Wool">Wool</option>
+    </select><br />
+
+    <label asp-for="thickness">Thickness</label>
+    <select asp-for="thickness">
+        <option value=""></option>
+        <option value="VeryFine">Very Fine</option>
+        <option value="Fine">Fine</option>
+        <option value="FineMedium">FineMedium</option>
+        <option value="Medium">Medium</option>
+        <option value="MediumCoarse">Medium Coarse</option>
+        <option value="Coarse">Coarse</option>*@
+    </select><br />
+
+@*    <label asp-for="direction">Direction</label>
+    <select asp-for="direction">
+        <option value=""></option>
+        <option value="Z">Z</option>
+        <option value="S">S</option>
+        <option value="S-twist">S Twist</option>
+        <option value="Z-twist">Z Twist</option>
+        <option value="S/Z">S/Z</option>
+        <option value="S-twist/Z-twist">S Twist/Z Twist</option>
+        <option value="S/Z-twist">S/Z Twist</option>
+        <option value="Z/S-twist">Z/S Twist</option>
+    </select><br />*@
+
+@*    <label asp-for="ply">Ply</label>
+    <select asp-for="ply">
+        <option value=""></option>
+        <option value="Single">Single</option>
+        <option value="Multiple">Multiple</option>
+    </select><br />*@
+
+    <label asp-for="sex">Sex</label>
+    <select asp-for="sex">
+        <option value=""></option>
+        <option value="M">Male</option>
+        <option value="F">Female</option>
+    </select><br />
+
+    <label asp-for="eastwest">East West</label>
+    <select asp-for="eastwest">
+        <option value=""></option>
+        <option value="E">East</option>
+        <option value="W">West</option>
+    </select><br />
+
+    <label asp-for="age">Age at Death</label>
+    <select asp-for="age">
+        <option value=""></option>
+        <option value="A">Adult</option>
+        <option value="C">Child</option>
+        <option value="I">Infant</option>
+        <option value="N">New Born</option>
+    </select><br />
+
+    <label asp-for="depth">Depth</label>
+    <input type="number" asp-for="depth" />
+    <br />
+    <label asp-for="length">Length</label>
+    <input type="number" asp-for="length" />
+    <br />
+    <label asp-for="squarenorthsouth">Square (North South)</label>
+    <input type="number" asp-for="squarenorthsouth" />
+    <br />
+    <label asp-for="squareeastwest">Square (East West)</label>
+    <input type="number" asp-for="squareeastwest" />
+    <br />
+@*    <label asp-for="count">Count</label>
+    <input type="number" asp-for="count" /><br />*@
+
+    <button type="submit">Predict Wrapping</button>
+
+    <h1>Predicted Value: @ViewBag.j</h1>
+</form>
+
