@@ -1,15 +1,11 @@
 ﻿using INTEXAPP2.Models;
-
 using Microsoft.AspNetCore.Authorization;
-
 using INTEXAPP2.Models.ViewModels;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Org.BouncyCastle.Crypto;
-
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Security.Cryptography.Xml;
@@ -17,7 +13,6 @@ using System.Security.Policy;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
-
 using Nancy.Json;
 
 
@@ -144,15 +139,6 @@ namespace INTEXAPP2.Controllers
                 return View(s);
             }
         }
-
-
-
-
-        public IActionResult UnsupervisedAnalysis()
-        {
-            return View();
-        }
-
 
         public IActionResult UnsupervisedAnalysis()
         {
