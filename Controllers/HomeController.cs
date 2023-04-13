@@ -79,10 +79,10 @@ namespace INTEXAPP2.Controllers
         }
 
 
-        public IActionResult UnsupervisedAnalysis()
-        {
-            return View();
-        }
+        //public IActionResult UnsupervisedAnalysis()
+        //{
+        //    return View();
+        //}
 
 
         public IActionResult AdministrativePages()
