@@ -5,7 +5,7 @@ namespace INTEXAPP2.Models
 {
     public partial class BurialmainBiological
     {
-        public long? MainBurialmainid { get; set; }
-        public long? MainBiologicalid { get; set; }
+        public long MainBurialmainid { get; set; }
+        public long MainBiologicalid { get; set; }
     }
 }
