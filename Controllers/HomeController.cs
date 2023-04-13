@@ -1,8 +1,14 @@
 ﻿using INTEXAPP2.Models;
+
 using Microsoft.AspNetCore.Authorization;
+
+using INTEXAPP2.Models.ViewModels;
+
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Http;
+
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Security.Cryptography.Xml;
@@ -13,15 +19,18 @@ using System.Text;
 
 using Nancy.Json;
 
+
 namespace INTEXAPP2.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private mummiesContext Context { get; set; }
+
+        public HomeController(ILogger<HomeController> logger, mummiesContext mc)
         {
-            _logger = logger;
+
+            Context = mc;
         }
 
         public IActionResult Index()
@@ -62,17 +71,22 @@ namespace INTEXAPP2.Controllers
         }
 
 
+
+        public IActionResult UnsupervisedAnalysis()
+
+        {
+            return View();
+        }
+
+
         public IActionResult UnsupervisedAnalysis()
         {
             return View();
         }
 
+
         public IActionResult AdministrativePages()
         {
-            return View();
-        }
-
-
             return View();
         }
 

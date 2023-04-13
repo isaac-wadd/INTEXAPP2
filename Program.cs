@@ -1,5 +1,7 @@
 using INTEXAPP2.Data;
+using INTEXAPP2.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +10,11 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+builder.Services.AddDbContext<mummiesContext>(options =>
+{
+    options.UseMySQL(builder.Configuration.GetConnectionString("Mummies"));
+});
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 
@@ -22,6 +29,7 @@ builder.Services.AddIdentity<IdentityUser,IdentityRole>(options =>
         //Rate Limiting (Throttling) See NIST SP800-63b 5.2.2 https://pages.nist.gov/800-63-3/sp800-63b.html#throttle
         options.Lockout.MaxFailedAccessAttempts = 5;
         options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+
         
 
     })
@@ -29,6 +37,9 @@ builder.Services.AddIdentity<IdentityUser,IdentityRole>(options =>
     .AddDefaultTokenProviders()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddSingleton<IHttpContextAccessor,HttpContextAccessor>();
+
 
 builder.Services.Configure<CookiePolicyOptions>(options =>
 {
@@ -38,6 +49,7 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 
     options.MinimumSameSitePolicy = SameSiteMode.None;
 });
+
 
 var app = builder.Build();
 
@@ -79,9 +91,11 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapControllerRoute("Paging", "{controller=Home}/{action=BurialSummary}/{pageNum}");
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 app.MapRazorPages();
 
 app.Run();

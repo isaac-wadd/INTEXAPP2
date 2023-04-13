@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace INTEXAPP2.Controllers
 {
-    [Authorize]
+    
     public class AdministrationController : Controller
     {
         private readonly RoleManager<IdentityRole> roleManager;
@@ -19,6 +19,7 @@ namespace INTEXAPP2.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult userAuth()
         {
             var users = userManager.Users.ToList();
@@ -26,6 +27,7 @@ namespace INTEXAPP2.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Details(string userId)
         {
             //find user by userId
@@ -41,6 +43,7 @@ namespace INTEXAPP2.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public IActionResult ManageRoles()
         {
             return View();
@@ -53,6 +56,7 @@ namespace INTEXAPP2.Controllers
         //}
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> AddRole(string role)
         {
             //create new role using roleManager
@@ -62,6 +66,7 @@ namespace INTEXAPP2.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public IActionResult DisplayRoles()
         {
             //get all roles and pass to view
@@ -72,6 +77,7 @@ namespace INTEXAPP2.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public IActionResult AddUserToRole()
         {
             //get all users
@@ -86,6 +92,7 @@ namespace INTEXAPP2.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> AddUserToRole(UserRole userRole)
         {
             //find user from userRole.UserId
@@ -100,6 +107,7 @@ namespace INTEXAPP2.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> RemoveUserRole(string role, string userName)
         {
             //get user from userName
@@ -114,6 +122,7 @@ namespace INTEXAPP2.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> RemoveUser(string userName)
         {
             //get role to delete using role Name
