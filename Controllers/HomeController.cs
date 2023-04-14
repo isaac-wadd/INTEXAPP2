@@ -14,7 +14,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
 using Nancy.Json;
-
+using System.Drawing.Text;
 
 namespace INTEXAPP2.Controllers
 {
@@ -43,8 +43,11 @@ namespace INTEXAPP2.Controllers
         }
 
 
-        public IActionResult BurialSummary(int pageNum = 1)
+        public IActionResult BurialSummary(string filter, int pageNum = 1)
         {
+
+            
+
 
             //Check to see if there is a cookie called "filters" and if not, create one
             if(httpContextAccessor.HttpContext.Request.Cookies["filters"] == null)
@@ -53,15 +56,23 @@ namespace INTEXAPP2.Controllers
                 httpContextAccessor.HttpContext.Response.Cookies.Append("filters", "hello,this,is,my,stuff", cookieOptions);
             }
 
+
+            
+
             // Set page length
             int pageLen = 10;
             List<SummaryView> summaryViews = new List<SummaryView>();
-            IQueryable<Burialmain> burialmains = Context.Burialmains.Skip((pageNum - 1) * pageLen).Take(pageLen);
+            IQueryable<Burialmain> burialmains = Context.Burialmains
+                .Where(f => f.Sex == filter || filter == null)
+                .OrderBy(f => f.Sex)
+                .Skip((pageNum - 1) * pageLen).Take(pageLen);
             
             foreach(var b in burialmains)
             {
                 SummaryView summary = new SummaryView
                 {
+
+
                     Id = b.Id,
                     sex = b.Sex,
                     depth = b.Depth,
