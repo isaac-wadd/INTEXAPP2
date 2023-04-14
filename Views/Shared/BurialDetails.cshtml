@@ -6,6 +6,7 @@
 @model SummaryView
 
 <!--Added shadows to each of the cards and increased the gap-->
+
 <div class="card card-outline-primary m-3 p-1 shadow-lg">
     <div class="bg-faded p-1">
         <h4>
@@ -19,15 +20,15 @@
             </span>
         </h4>
         <a asp-controller="Home" asp-action="ViewDetails" asp-route-id="@Model.Id">
-        <div class="container">
+        <div class="container rounded-3" >
             
             
-            <div class="card-text p-1">Sex: @(Model.sex==null||Model.sex=="" ? "Unknown": Model.sex)</div>
-            <div class="card-text p-1">Burial Depth: @(Model.depth ?? "Unknown").</div>
-            <div class="card-text p-1">Structure: @(Model.stature == null ?"Unknown":Model.stature)</div>
-            <div class="card-text p-1">Age At Death: @(Model.age ?? "Unknown")</div>
-            <div class="card-text p-1">Head Direction: @(Model.headdirection ?? "Unknown")</div>
-            <div class="card-text p-1">Hair Color: @(Model.haircolor ?? "Unknown")</div>
+            <div class="card-text p-1 rounded-3">Sex: @(Model.sex==null||Model.sex=="" ? "Unknown": Model.sex)</div>
+            <div class="card-text p-1 rounded-3">Burial Depth: @(Model.depth ?? "Unknown").</div>
+            <div class="card-text p-1 rounded-3">Structure: @(Model.stature == null ?"Unknown":Model.stature)</div>
+            <div class="card-text p-1 rounded-3">Age At Death: @(Model.age ?? "Unknown")</div>
+            <div class="card-text p-1 rounded-3">Head Direction: @(Model.headdirection ?? "Unknown")</div>
+            <div class="card-text p-1 rounded-3">Hair Color: @(Model.haircolor ?? "Unknown")</div>
 
             @if (Model.TextileList.Count() > 0)
             {
