@@ -50,6 +50,8 @@ namespace INTEXAPP2.Controllers
             if(httpContextAccessor.HttpContext.Request.Cookies["filters"] == null)
             {
                 var cookieOptions = new CookieOptions();
+                cookieOptions.Domain = httpContextAccessor.HttpContext.Request.Host.Value;
+                cookieOptions.Path = httpContextAccessor.HttpContext.Request.Path;
                 httpContextAccessor.HttpContext.Response.Cookies.Append("filters", "hello,this,is,my,stuff", cookieOptions);
             }
 
