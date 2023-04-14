@@ -76,9 +76,29 @@ namespace INTEXAPP2.Controllers
 
             foreach(var s in summaryViews)
             {
-                s.stature = Context1.Burialdetails.Where(x => x.Id == s.Id).FirstOrDefault().EstimateStature;
-                s.haircolor = Context2.Burialdetails.Where(x => x.Id == s.Id).FirstOrDefault().RightHairColor;
-                s.TextileList = Context3.Textiledetails.Where(x => x.MainBurialmainid == s.Id).ToList();
+                try
+                {
+                    s.stature = Context1.Burialdetails.Where(x => x.Id == s.Id).FirstOrDefault().EstimateStature;
+                }
+                catch { 
+                    s.stature = null;
+                }
+                try
+                {
+                    s.haircolor = Context2.Burialdetails.Where(x => x.Id == s.Id).FirstOrDefault().RightHairColor;
+                }
+                catch
+                {
+                    s.haircolor = null;
+                }
+                try
+                {
+                    s.TextileList = Context3.Textiledetails.Where(x => x.MainBurialmainid == s.Id).ToList();
+                }
+                catch
+                {
+                    s.TextileList = null;
+                }
             }
 
             //Create view Model
@@ -99,6 +119,7 @@ namespace INTEXAPP2.Controllers
             return View(x);
         }
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public IActionResult Edit(long id)
         {
             Burialmain b = Context.Burialmains.Where(x => x.Id == id).First();
@@ -113,15 +134,36 @@ namespace INTEXAPP2.Controllers
                 //haircolor = Context2.Burialdetails.Where(x => x.Id == b.Id).FirstOrDefault().RightHairColor,
                 //TextileList = Context3.Textiledetails.Where(x => x.MainBurialmainid == b.Id).ToList(),
             };
-            s.stature = Context1.Burialdetails.Where(x => x.Id == s.Id).FirstOrDefault().EstimateStature;
-            s.haircolor = Context2.Burialdetails.Where(x => x.Id == s.Id).FirstOrDefault().RightHairColor;
-            s.TextileList = Context3.Textiledetails.Where(x => x.MainBurialmainid == s.Id).ToList();
-
+            try
+            {
+                s.stature = Context1.Burialdetails.Where(x => x.Id == s.Id).FirstOrDefault().EstimateStature;
+            }
+            catch
+            {
+                s.stature = null;
+            }
+            try
+            {
+                s.haircolor = Context2.Burialdetails.Where(x => x.Id == s.Id).FirstOrDefault().RightHairColor;
+            }
+            catch
+            {
+                s.haircolor = null;
+            }
+            try
+            {
+                s.TextileList = Context3.Textiledetails.Where(x => x.MainBurialmainid == s.Id).ToList();
+            }
+            catch
+            {
+                s.TextileList = null;
+            }
             return View(s);
         }
 
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public IActionResult Edit(SummaryView s) {
             if(ModelState.IsValid)
             {
@@ -132,12 +174,62 @@ namespace INTEXAPP2.Controllers
                 b.Headdirection = s.headdirection;
                 Context.Update(b);
                 Context.SaveChanges();
-                return RedirectToAction("BurialSummary");
+                return View("Success");
             }
             else
             {
                 return View(s);
             }
+        }
+        [HttpGet]
+        [Authorize(Roles = "admin")]
+        public IActionResult Add()
+        {
+            long? id = Context.Burialmains.Max(x => x.Id) + 1;
+            ViewBag.id = id;
+            return View();
+        }
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        public IActionResult Add(Burialmain b)
+        {
+            if (ModelState.IsValid)
+            {
+                Context.Add(b);
+                Context.SaveChanges();
+                return View("Success");
+            }
+            else
+            {
+                return View(b);
+            }
+            
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "admin")]
+        public IActionResult Delete(long id)
+        {
+            try
+            {
+                Burialmain b = Context.Burialmains.Where(x => x.Id == id).First();
+                return View(b);
+            }
+            catch
+            {
+                return View(new Burialmain());
+            }
+            
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        public IActionResult Delete(Burialmain b)
+        {
+            Burialmain removal = Context.Burialmains.Where(y => y.Id == b.Id).FirstOrDefault();
+            Context.Remove(removal);
+            Context.SaveChanges();
+            return View("Success");
         }
 
         public IActionResult UnsupervisedAnalysis()
@@ -168,6 +260,46 @@ namespace INTEXAPP2.Controllers
         {
             ViewBag.j = d.PredictedValue;
             return View();
+        }
+
+        public IActionResult ViewDetails(long id)
+        {
+            Burialmain? b;
+            Burialdetail? d;
+            try {
+                 b = Context.Burialmains.FirstOrDefault(y => y.Id == id);
+            }
+            catch
+            {
+                 b = null;
+            }
+
+            try
+            {
+                d = Context.Burialdetails.FirstOrDefault(y => y.Id == id);
+            }
+            catch
+            {
+                d = null;
+            }
+
+            if (b == null)
+            {
+                return RedirectToAction("BurialSummary");
+            }
+            else if (d == null)
+            {
+                return View("JustBurial");
+            }
+            else
+            {
+                DetailsViewModel dvm = new DetailsViewModel
+                {
+                    BurialDetails = d,
+                    Burial = b,
+                };
+                return View(dvm);
+            }
         }
 
         [HttpPost]
