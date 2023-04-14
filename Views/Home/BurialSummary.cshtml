@@ -11,14 +11,26 @@
 @model BurialViewModel
 <partial name="Addpartial" />
 <div id="Filters">
-    <partial name="Filters" />
+    <vc:types></vc:types>
 </div>
-@foreach(SummaryView b in Model.Burials)
-{
-        <partial name="BurialDetails" model="b"/>
-}
+
+<div class="flex">
+    <div class="row">
+        @foreach (SummaryView b in Model.Burials)
+        {
+            <div class="col-6"  >
+                <partial name="BurialDetails" model="b" />
+            </div>
+        }
+    </div>
+</div>
+        
+
+
 
 <div link-maker="@Model.PageDetails" page-action="BurialSummary" page-classes-enabled="true"
      page-class="btn" page-class-normal="btn-outline-dark"
      page-class-selected="btn-primary" page-class-disabled="btn-disabled" class="btn-group pull-right m-1">
 </div>
+
+

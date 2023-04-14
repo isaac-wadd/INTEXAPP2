@@ -1,4 +1,4 @@
-﻿using INTEXAPP2.Models;
+using INTEXAPP2.Models;
 using Microsoft.AspNetCore.Authorization;
 using INTEXAPP2.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +14,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
 using Nancy.Json;
-
+using System.Drawing.Text;
 
 namespace INTEXAPP2.Controllers
 {
@@ -43,82 +43,323 @@ namespace INTEXAPP2.Controllers
         }
 
 
-        public IActionResult BurialSummary(int pageNum = 1)
+        public IActionResult BurialSummary(string filter, int pageNum = 1)
         {
+
+            
+
 
             //Check to see if there is a cookie called "filters" and if not, create one
             if(httpContextAccessor.HttpContext.Request.Cookies["filters"] == null)
             {
                 var cookieOptions = new CookieOptions();
+                cookieOptions.Domain = httpContextAccessor.HttpContext.Request.Host.Value;
+                cookieOptions.Path = httpContextAccessor.HttpContext.Request.Path;
                 httpContextAccessor.HttpContext.Response.Cookies.Append("filters", "hello,this,is,my,stuff", cookieOptions);
             }
+
+
+            
 
             // Set page length
             int pageLen = 10;
             List<SummaryView> summaryViews = new List<SummaryView>();
-            IQueryable<Burialmain> burialmains = Context.Burialmains.Skip((pageNum - 1) * pageLen).Take(pageLen);
-            
-            foreach(var b in burialmains)
+
+            //IQueryable<Burialmain> burialmains = new IQueryable<Burialmain>();
+
+            if (filter == "M" || filter == "F")
             {
-                SummaryView summary = new SummaryView
+                IQueryable<Burialmain> burialmains = Context.Burialmains
+                .Where(f => f.Sex == filter || filter == null)
+                .OrderBy(f => f.Sex)
+                .Skip((pageNum - 1) * pageLen).Take(pageLen);
+
+                foreach (var b in burialmains)
                 {
-                    Id = b.Id,
-                    sex = b.Sex,
-                    depth = b.Depth,
-                    //stature = Context1.Burialdetails.Where(x => x.Id == b.Id).FirstOrDefault().EstimateStature,
-                    age = b.Ageatdeath,
-                    headdirection = b.Headdirection,
-                    //haircolor = Context2.Burialdetails.Where(x => x.Id == b.Id).FirstOrDefault().RightHairColor,
-                    //TextileList = Context3.Textiledetails.Where(x => x.MainBurialmainid == b.Id).ToList(),
+                    SummaryView summary = new SummaryView
+                    {
+
+
+                        Id = b.Id,
+                        sex = b.Sex,
+                        depth = b.Depth,
+                        //stature = Context1.Burialdetails.Where(x => x.Id == b.Id).FirstOrDefault().EstimateStature,
+                        age = b.Ageatdeath,
+                        headdirection = b.Headdirection,
+                        //haircolor = Context2.Burialdetails.Where(x => x.Id == b.Id).FirstOrDefault().RightHairColor,
+                        //TextileList = Context3.Textiledetails.Where(x => x.MainBurialmainid == b.Id).ToList(),
+                    };
+
+                    summaryViews.Add(summary);
+
+                }
+
+                foreach (var s in summaryViews)
+                {
+                    try
+                    {
+                        s.stature = Context1.Burialdetails.Where(x => x.Id == s.Id).FirstOrDefault().EstimateStature;
+                    }
+                    catch
+                    {
+                        s.stature = null;
+                    }
+                    try
+                    {
+                        s.haircolor = Context2.Burialdetails.Where(x => x.Id == s.Id).FirstOrDefault().RightHairColor;
+                    }
+                    catch
+                    {
+                        s.haircolor = null;
+                    }
+                    try
+                    {
+                        s.TextileList = Context3.Textiledetails.Where(x => x.MainBurialmainid == s.Id).ToList();
+                    }
+                    catch
+                    {
+                        s.TextileList = null;
+                    }
+                }
+
+                //Create view Model
+                var x = new BurialViewModel
+                {
+                    //Get books using repo
+                    Burials = summaryViews,
+
+                    //Set up page details
+                    PageDetails = new PageDetails
+                    {
+                        totalBurials = Context.Burialmains.Count(),
+                        BurialsPerPage = pageLen,
+                        CurrentPage = pageNum
+                    }
+
                 };
-
-                summaryViews.Add(summary);
+                return View(x);
 
             }
-
-            foreach(var s in summaryViews)
+            else if (filter == "A" || filter == "I" || filter == "N" || filter == "In" || filter == "C")
             {
-                try
+                IQueryable<Burialmain> burialmains = Context.Burialmains
+                .Where(f => f.Ageatdeath == filter || filter == null)
+                .OrderBy(f => f.Ageatdeath)
+                .Skip((pageNum - 1) * pageLen).Take(pageLen);
+
+                foreach (var b in burialmains)
                 {
-                    s.stature = Context1.Burialdetails.Where(x => x.Id == s.Id).FirstOrDefault().EstimateStature;
+                    SummaryView summary = new SummaryView
+                    {
+
+
+                        Id = b.Id,
+                        sex = b.Sex,
+                        depth = b.Depth,
+                        //stature = Context1.Burialdetails.Where(x => x.Id == b.Id).FirstOrDefault().EstimateStature,
+                        age = b.Ageatdeath,
+                        headdirection = b.Headdirection,
+                        //haircolor = Context2.Burialdetails.Where(x => x.Id == b.Id).FirstOrDefault().RightHairColor,
+                        //TextileList = Context3.Textiledetails.Where(x => x.MainBurialmainid == b.Id).ToList(),
+                    };
+
+                    summaryViews.Add(summary);
+
                 }
-                catch { 
-                    s.stature = null;
-                }
-                try
+
+                foreach (var s in summaryViews)
                 {
-                    s.haircolor = Context2.Burialdetails.Where(x => x.Id == s.Id).FirstOrDefault().RightHairColor;
+                    try
+                    {
+                        s.stature = Context1.Burialdetails.Where(x => x.Id == s.Id).FirstOrDefault().EstimateStature;
+                    }
+                    catch
+                    {
+                        s.stature = null;
+                    }
+                    try
+                    {
+                        s.haircolor = Context2.Burialdetails.Where(x => x.Id == s.Id).FirstOrDefault().RightHairColor;
+                    }
+                    catch
+                    {
+                        s.haircolor = null;
+                    }
+                    try
+                    {
+                        s.TextileList = Context3.Textiledetails.Where(x => x.MainBurialmainid == s.Id).ToList();
+                    }
+                    catch
+                    {
+                        s.TextileList = null;
+                    }
                 }
-                catch
+
+                //Create view Model
+                var x = new BurialViewModel
                 {
-                    s.haircolor = null;
-                }
-                try
+                    //Get books using repo
+                    Burials = summaryViews,
+
+                    //Set up page details
+                    PageDetails = new PageDetails
+                    {
+                        totalBurials = Context.Burialmains.Count(),
+                        BurialsPerPage = pageLen,
+                        CurrentPage = pageNum
+                    }
+
+                };
+                return View(x);
+
+            }
+            else if (filter == "N" || filter == "S" )
+            {
+                IQueryable<Burialmain> burialmains = Context.Burialmains
+                .Where(f => f.Headdirection == filter || filter == null)
+                .OrderBy(f => f.Headdirection)
+                .Skip((pageNum - 1) * pageLen).Take(pageLen);
+
+                foreach (var b in burialmains)
                 {
-                    s.TextileList = Context3.Textiledetails.Where(x => x.MainBurialmainid == s.Id).ToList();
+                    SummaryView summary = new SummaryView
+                    {
+
+
+                        Id = b.Id,
+                        sex = b.Sex,
+                        depth = b.Depth,
+                        //stature = Context1.Burialdetails.Where(x => x.Id == b.Id).FirstOrDefault().EstimateStature,
+                        age = b.Ageatdeath,
+                        headdirection = b.Headdirection,
+                        //haircolor = Context2.Burialdetails.Where(x => x.Id == b.Id).FirstOrDefault().RightHairColor,
+                        //TextileList = Context3.Textiledetails.Where(x => x.MainBurialmainid == b.Id).ToList(),
+                    };
+
+                    summaryViews.Add(summary);
+
                 }
-                catch
+
+                foreach (var s in summaryViews)
                 {
-                    s.TextileList = null;
+                    try
+                    {
+                        s.stature = Context1.Burialdetails.Where(x => x.Id == s.Id).FirstOrDefault().EstimateStature;
+                    }
+                    catch
+                    {
+                        s.stature = null;
+                    }
+                    try
+                    {
+                        s.haircolor = Context2.Burialdetails.Where(x => x.Id == s.Id).FirstOrDefault().RightHairColor;
+                    }
+                    catch
+                    {
+                        s.haircolor = null;
+                    }
+                    try
+                    {
+                        s.TextileList = Context3.Textiledetails.Where(x => x.MainBurialmainid == s.Id).ToList();
+                    }
+                    catch
+                    {
+                        s.TextileList = null;
+                    }
                 }
+
+                //Create view Model
+                var x = new BurialViewModel
+                {
+                    //Get books using repo
+                    Burials = summaryViews,
+
+                    //Set up page details
+                    PageDetails = new PageDetails
+                    {
+                        totalBurials = Context.Burialmains.Count(),
+                        BurialsPerPage = pageLen,
+                        CurrentPage = pageNum
+                    }
+
+                };
+                return View(x);
+
+            }
+            else
+            {
+                IQueryable<Burialmain> burialmains = Context.Burialmains
+                .Skip((pageNum - 1) * pageLen).Take(pageLen);
+
+                foreach (var b in burialmains)
+                {
+                    SummaryView summary = new SummaryView
+                    {
+
+
+                        Id = b.Id,
+                        sex = b.Sex,
+                        depth = b.Depth,
+                        //stature = Context1.Burialdetails.Where(x => x.Id == b.Id).FirstOrDefault().EstimateStature,
+                        age = b.Ageatdeath,
+                        headdirection = b.Headdirection,
+                        //haircolor = Context2.Burialdetails.Where(x => x.Id == b.Id).FirstOrDefault().RightHairColor,
+                        //TextileList = Context3.Textiledetails.Where(x => x.MainBurialmainid == b.Id).ToList(),
+                    };
+
+                    summaryViews.Add(summary);
+
+                }
+
+                foreach (var s in summaryViews)
+                {
+                    try
+                    {
+                        s.stature = Context1.Burialdetails.Where(x => x.Id == s.Id).FirstOrDefault().EstimateStature;
+                    }
+                    catch
+                    {
+                        s.stature = null;
+                    }
+                    try
+                    {
+                        s.haircolor = Context2.Burialdetails.Where(x => x.Id == s.Id).FirstOrDefault().RightHairColor;
+                    }
+                    catch
+                    {
+                        s.haircolor = null;
+                    }
+                    try
+                    {
+                        s.TextileList = Context3.Textiledetails.Where(x => x.MainBurialmainid == s.Id).ToList();
+                    }
+                    catch
+                    {
+                        s.TextileList = null;
+                    }
+                }
+
+                //Create view Model
+                var x = new BurialViewModel
+                {
+                    //Get books using repo
+                    Burials = summaryViews,
+
+                    //Set up page details
+                    PageDetails = new PageDetails
+                    {
+                        totalBurials = Context.Burialmains.Count(),
+                        BurialsPerPage = pageLen,
+                        CurrentPage = pageNum
+                    }
+
+                };
+                return View(x);
             }
 
-            //Create view Model
-            var x = new BurialViewModel
-            {
-                //Get books using repo
-                Burials = summaryViews,
+            
+            
 
-                //Set up page details
-                PageDetails = new PageDetails
-                {
-                    totalBurials = Context.Burialmains.Count(),
-                    BurialsPerPage = pageLen,
-                    CurrentPage = pageNum
-                }
-
-            };
-            return View(x);
         }
         [HttpGet]
         [Authorize(Roles = "admin")]
