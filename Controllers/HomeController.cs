@@ -1,4 +1,4 @@
-﻿using INTEXAPP2.Models;
+using INTEXAPP2.Models;
 using Microsoft.AspNetCore.Authorization;
 using INTEXAPP2.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -236,10 +236,10 @@ namespace INTEXAPP2.Controllers
             return View("Success");
         }
 
-        public IActionResult UnsupervisedAnalysis()
-        {
-            return View();
-        }
+        //public IActionResult UnsupervisedAnalysis()
+        //{
+        //    return View();
+        //}
 
 
         public IActionResult AdministrativePages()
