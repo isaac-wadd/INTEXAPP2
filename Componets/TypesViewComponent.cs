@@ -14,12 +14,31 @@ namespace INTEXAPP2.Componets
 
         public IViewComponentResult Invoke()
         {
-            var types = repo.Burialmains
+            var sex = repo.Burialmains
             .Select(x => x.Sex)
             .Distinct()
-            .OrderBy(x => x);
+            .OrderBy(e => String.IsNullOrEmpty(e));
 
-            return View(types);
+            var age = repo.Burialmains
+            .Select(t => t.Ageatdeath)
+            .Distinct()
+            .OrderBy(e => String.IsNullOrEmpty(e));
+
+            var direction = repo.Burialmains
+            .Select(d => d.Headdirection)
+            .Distinct()
+            .OrderBy(e => String.IsNullOrEmpty(e))
+            
+            ;
+
+            
+
+            List<IOrderedQueryable> li = new List<IOrderedQueryable> ();
+            li.Add(sex);
+            li.Add(age);
+            li.Add(direction);
+
+            return View(li);
         }
     }
 }

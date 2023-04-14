@@ -3,10 +3,38 @@
 *@
 @{
 }
+<h3>Filters:</h3>
+<a asp-controller="Home" asp-action="BurialSummary" asp-route-filter="">Home</a> 
+<div class="container">
+    <div class="row align-content-center">
+        <div class="col-4">
+            <p>Sex</p>
+        </div>
+        <div class="col-4"><p>Age at Death</p></div>
+        <div class="col-4"><p>Head Direction</p></div>
+    </div>
+</div>
 
-<a asp-controller="Home" asp-action="BurialSummary" asp-route-filter="">Home</a>
 
-@foreach (string t in Model)
+<div class="container">
+    <div class="row align-content-center">
+        
+@foreach (var x in Model)
 {
-    <a asp-controller="Home" asp-action="BurialSummary" asp-route-filter="@t">@t</a>
+            <div class="col-4">
+                @foreach (var t in x)
+                {
+                    @if (t != null & t != "")
+                    {
+                        <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="BurialSummary" asp-route-filter="@t">@t</a>
+                    }
+                }
+            </div>
+    
+
+
+    
 }
+        
+    </div>
+</div>
