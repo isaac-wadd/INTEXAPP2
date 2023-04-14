@@ -475,10 +475,10 @@ namespace INTEXAPP2.Controllers
             return View("Success");
         }
 
-        //public IActionResult UnsupervisedAnalysis()
-        //{
-        //    return View();
-        //}
+        public IActionResult UnsupervisedAnalysis()
+        {
+            return View();
+        }
 
 
         public IActionResult AdministrativePages()
