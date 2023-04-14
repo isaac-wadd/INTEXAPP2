@@ -6,7 +6,6 @@ namespace INTEXAPP2.Models
 {
     public partial class Textiledetail
     {
-        
         public long? MainBurialmainid { get; set; }
         public string? Color { get; set; }
         public string? Locale { get; set; }

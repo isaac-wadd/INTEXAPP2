@@ -27,11 +27,7 @@ namespace INTEXAPP2.Componets
             var direction = repo.Burialmains
             .Select(d => d.Headdirection)
             .Distinct()
-            .OrderBy(e => String.IsNullOrEmpty(e))
-            
-            ;
-
-            
+            .OrderBy(e => String.IsNullOrEmpty(e));
 
             List<IOrderedQueryable> li = new List<IOrderedQueryable> ();
             li.Add(sex);

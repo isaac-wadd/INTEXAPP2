@@ -6,9 +6,7 @@ namespace INTEXAPP2.Models
     {
         public long? Id { get; set; }
         public List<Textiledetail>? TextileList { get; set; }
-
         public string? sex { get; set; }
-        //WHY?!?!?!?!??!?!! Who decided to set depth to string in the database?!?!?!?!!
         public string? depth { get; set; }
         public double? stature { get; set; }
         public string? age { get; set; }

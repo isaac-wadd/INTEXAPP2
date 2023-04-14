@@ -8,10 +8,6 @@ namespace INTEXAPP2.Models.ViewModels
         public string head { get; set; }
         [Required]
         public string face { get; set; }
-        //public string material { get; set; }
-        //public string thickness { get; set; }
-        //public string direction { get; set; }
-        //public string ply { get; set; }
         [Required]
         public string sex { get; set; }
         [Required]
@@ -26,7 +22,5 @@ namespace INTEXAPP2.Models.ViewModels
         public float? squarenorthsouth { get; set; }
         [Required]
         public float? squareeastwest { get; set; }
-        //public float? count { get; set; }
-
     }
 }
