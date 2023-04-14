@@ -76,7 +76,7 @@ namespace INTEXAPP2.Controllers
         }
 
 
-        [HttpGet]
+        //[HttpGet]
         [Authorize(Roles = "admin")]
         public IActionResult AddUserToRole()
         {
