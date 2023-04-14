@@ -24,7 +24,9 @@
             <div class="col-4">
                 @foreach (var t in x)
                 {
-                    @if (t != null & t != "")
+
+                    @if (t != null & t != "" & t != "N LL" & t != "In")
+
                     {
                         <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="BurialSummary" asp-route-filter="@t">@t</a>
                     }
