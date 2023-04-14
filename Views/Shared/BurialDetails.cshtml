@@ -8,14 +8,17 @@
 <!--Added shadows to each of the cards and increased the gap-->
 <div class="card card-outline-primary m-3 p-1 shadow-lg">
     <div class="bg-faded p-1">
-        <partial name="EditPartial" model="Model" />
         <h4>
             @Model.Id
             <!--Make price the little blue bubble-->
             <span class="badge badge-pill badge-primary" style="float:right">
-                <small>$@Model.Id</small>
+                <small>
+                    <partial name="EditPartial" model="Model" /> | 
+                    <partial name="DeletePartial" model="Model"/>
+                </small>
             </span>
         </h4>
+        <a asp-controller="Home" asp-action="ViewDetails" asp-route-id="@Model.Id">
         <div class="container">
             
             
@@ -48,6 +51,7 @@
 
 
         </div>
+        </a>
     </div>
     <!--List out everything else-->
 @*    <div class="card-text p-1">Author: @Model.Author.</div>
