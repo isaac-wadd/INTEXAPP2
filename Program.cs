@@ -15,6 +15,7 @@ builder.Services.AddDbContext<mummiesContext>(options =>
 {
     options.UseMySQL(builder.Configuration.GetConnectionString("Mummies"));
 });
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 
