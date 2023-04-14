@@ -104,8 +104,10 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.MapControllerRoute("typepage", "", "{Controller=Home}/{action=BurialSummary}/{filter}/{pageNum}");
 app.MapControllerRoute("Second", "{controller}/{action}/{id?}");
 app.MapControllerRoute("Paging", "{controller=Home}/{action=BurialSummary}/{pageNum}");
+app.MapControllerRoute("type", "{Controller =Home}/{action=BurialSummary}/{filter}/{pageNum=1}");
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
