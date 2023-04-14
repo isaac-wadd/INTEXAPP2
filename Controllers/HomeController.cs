@@ -46,11 +46,13 @@ namespace INTEXAPP2.Controllers
         public IActionResult BurialSummary(int pageNum = 1)
         {
 
+            //Check to see if there is a cookie called "filters" and if not, create one
             if(httpContextAccessor.HttpContext.Request.Cookies["filters"] == null)
             {
                 var cookieOptions = new CookieOptions();
                 httpContextAccessor.HttpContext.Response.Cookies.Append("filters", "hello,this,is,my,stuff", cookieOptions);
             }
+
             // Set page length
             int pageLen = 10;
             List<SummaryView> summaryViews = new List<SummaryView>();
