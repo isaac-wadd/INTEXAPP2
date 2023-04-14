@@ -19,7 +19,7 @@ namespace INTEXAPP2.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public IActionResult userAuth()
         {
             var users = userManager.Users.ToList();

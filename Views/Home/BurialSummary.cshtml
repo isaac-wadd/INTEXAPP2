@@ -9,10 +9,11 @@
 }       
 
 @model BurialViewModel
-<div id="Filters" class="col-3">
+<partial name="Addpartial" />
+<div id="Filters">
     <partial name="Filters" />
 </div>
-@foreach(Burialmain b in Model.Burials)
+@foreach(SummaryView b in Model.Burials)
 {
         <partial name="BurialDetails" model="b"/>
 }
@@ -21,12 +22,3 @@
      page-class="btn" page-class-normal="btn-outline-dark"
      page-class-selected="btn-primary" page-class-disabled="btn-disabled" class="btn-group pull-right m-1">
 </div>
-
-
-<h1>Burial Summary List and Burial Record Pages</h1>
-
-<h2>A paginated list of all burials with a brief summary of the info.</h2>
-<h2>The ability to filter the results by certain criteria</h2>
-<h2>The database has many, many fields, and we do not expect you to be able to filter by all</h2>
-<h2>The client will have some insight into which filter options should take priority</h2>
-<h2>The ability to select a specific record and pull up the details of the burial (i.e. field notes, photographs, measurements, and any details captured about the mummy or items included in its burial.)</h2>

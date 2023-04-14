@@ -1,13 +1,9 @@
 ﻿
 @{
+   
 }
-<div>
-    @if (ViewContext.HttpContext.Request.Cookies["filters"] != null)
-    {
-        foreach (var filter in ViewContext.HttpContext.Request.Cookies["filters"].Split(","))
-        {
-            <div>Test</div>
-        }
-    }
-
+<div id="output">
+  
 </div>
+
+<script src="~/js/javascript.js"></script>
